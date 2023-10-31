@@ -8,12 +8,6 @@ Add frequently used `chainId` to https://orderly.mintlify.app/build-on-evm/smart
 
 See https://chainlist.org/
 
-### missing account registration information
-
-Like the one here: https://testnet-docs-api-evm.orderly.network/?shell#user-flow-walkthrough-accounts-access-keys-account-registration
-
-It should be before "Authentication" and it needs to be made clear, that you don't need to send the required headers from Authentication for these requests.
-
 ### missing domain for EIP-712 signing
 
 I couldn't find anywhere in the docs what I need to use for the domain for EIP-712. See:
