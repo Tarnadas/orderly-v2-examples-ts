@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "orderly-v2-api-examples",
+  "name": "orderly-v2-examples-ts",
   "version": "1.0.0",
   "description": "Examples of how to use Orderly EVM API",
   "author": "Mario Reder <mario@orderly.network>",
