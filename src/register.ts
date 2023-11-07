@@ -43,13 +43,14 @@ export async function registerAccount(wallet: ethers.Wallet): Promise<string> {
     })
   });
   const registerJson = await registerRes.json();
+  console.log('registerAccount', registerJson);
   if (!registerJson.success) {
     throw new Error(registerJson.message);
   }
   return registerJson.data.account_id;
 }
 
-export async function addAccessKey(wallet: ethers.Wallet): Promise<string> {
+export async function addAccessKey(wallet: ethers.Wallet): Promise<nacl.SignKeyPair> {
   const keyPair = sign.keyPair();
   const orderlyKey = `ed25519:${encodeBase58(keyPair.publicKey)}`;
   const timestamp = Date.now();
@@ -57,7 +58,7 @@ export async function addAccessKey(wallet: ethers.Wallet): Promise<string> {
     brokerId: BROKER_ID,
     chainId: CHAIN_ID,
     orderlyKey,
-    scope: 'trading',
+    scope: 'read,trading',
     timestamp,
     expiration: timestamp + 1_000 * 60 * 60 * 24 * 365 // 1 year
   };
@@ -81,8 +82,9 @@ export async function addAccessKey(wallet: ethers.Wallet): Promise<string> {
     })
   });
   const keyJson = await keyRes.json();
+  console.log('addAccessKey', keyJson);
   if (!keyJson.success) {
     throw new Error(keyJson.message);
   }
-  return keyJson.data.orderly_key;
+  return keyPair;
 }

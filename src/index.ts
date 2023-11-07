@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 import { AbiCoder, ethers, keccak256, solidityPackedKeccak256 } from 'ethers';
 
+import { getClientHolding } from './account';
 import { BASE_URL, BROKER_ID } from './config';
 import { addAccessKey, registerAccount } from './register';
 
@@ -25,21 +26,10 @@ async function main() {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const orderlyKey = await addAccessKey(wallet);
-  console.log('orderlyKey', orderlyKey);
+  const keyPair = await addAccessKey(wallet);
+
+  await getClientHolding(accountId, keyPair);
 }
-
-// TODO doesn't return same value as `/v1/get_account`
-// export async function calculateOrderlyAccountId(wallet: ethers.Wallet) {
-//   const address = await wallet.getAddress();
-//   const addressBytes = Buffer.from(address.substring(2), 'hex');
-
-//   const encoder = new TextEncoder();
-//   const brokerIdHash = keccak256(encoder.encode(BROKER_ID));
-//   const brokerIdBytes = Buffer.from(brokerIdHash.substring(2), 'hex');
-
-//   return keccak256(Buffer.concat([addressBytes, brokerIdBytes]));
-// }
 
 export function getAccountId(userAddress, brokerId) {
   const abicoder = AbiCoder.defaultAbiCoder();
