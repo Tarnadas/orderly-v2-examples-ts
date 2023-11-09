@@ -1,5 +1,5 @@
+import { getPublicKeyAsync, utils } from '@noble/ed25519';
 import { encodeBase58, ethers } from 'ethers';
-import { sign } from 'tweetnacl';
 
 import { BASE_URL, BROKER_ID, CHAIN_ID } from './config';
 import { eip712Types } from './eip712';
@@ -50,9 +50,9 @@ export async function registerAccount(wallet: ethers.Wallet): Promise<string> {
   return registerJson.data.account_id;
 }
 
-export async function addAccessKey(wallet: ethers.Wallet): Promise<nacl.SignKeyPair> {
-  const keyPair = sign.keyPair();
-  const orderlyKey = `ed25519:${encodeBase58(keyPair.publicKey)}`;
+export async function addAccessKey(wallet: ethers.Wallet): Promise<Uint8Array> {
+  const privateKey = utils.randomPrivateKey();
+  const orderlyKey = `ed25519:${encodeBase58(await getPublicKeyAsync(privateKey))}`;
   const timestamp = Date.now();
   const addKeyMessage = {
     brokerId: BROKER_ID,
@@ -86,5 +86,5 @@ export async function addAccessKey(wallet: ethers.Wallet): Promise<nacl.SignKeyP
   if (!keyJson.success) {
     throw new Error(keyJson.message);
   }
-  return keyPair;
+  return privateKey;
 }

@@ -1,9 +1,14 @@
 import { config } from 'dotenv';
 import { AbiCoder, ethers, keccak256, solidityPackedKeccak256 } from 'ethers';
+import { webcrypto } from 'node:crypto';
 
 import { getClientHolding } from './account';
 import { BASE_URL, BROKER_ID } from './config';
 import { addAccessKey, registerAccount } from './register';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+if (!globalThis.crypto) globalThis.crypto = webcrypto;
 
 config();
 
@@ -26,9 +31,9 @@ async function main() {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const keyPair = await addAccessKey(wallet);
+  const privateKey = await addAccessKey(wallet);
 
-  await getClientHolding(accountId, keyPair);
+  await getClientHolding(accountId, privateKey);
 }
 
 export function getAccountId(userAddress, brokerId) {
