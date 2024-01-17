@@ -1,4 +1,4 @@
-const definedTypes = {
+export const messageTypes = {
   EIP712Domain: [
     { name: 'name', type: 'string' },
     { name: 'version', type: 'string' },
@@ -25,7 +25,7 @@ const definedTypes = {
     { name: 'receiver', type: 'address' },
     { name: 'token', type: 'string' },
     { name: 'amount', type: 'uint256' },
-    { name: 'withdrawNonce', type: 'uint256' },
+    { name: 'withdrawNonce', type: 'uint64' },
     { name: 'timestamp', type: 'uint64' }
   ],
   SettlePnl: [
@@ -34,11 +34,4 @@ const definedTypes = {
     { name: 'settleNonce', type: 'uint64' },
     { name: 'timestamp', type: 'uint64' }
   ]
-};
-
-export const eip712Types = {
-  EIP712Domain: definedTypes['EIP712Domain'],
-  Registration: definedTypes['Registration'],
-  Withdraw: definedTypes['Withdraw'],
-  AddOrderlyKey: definedTypes['AddOrderlyKey']
 };

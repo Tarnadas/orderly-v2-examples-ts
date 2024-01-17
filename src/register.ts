@@ -2,7 +2,7 @@ import { getPublicKeyAsync, utils } from '@noble/ed25519';
 import { encodeBase58, ethers } from 'ethers';
 
 import { BASE_URL, BROKER_ID, CHAIN_ID } from './config';
-import { eip712Types } from './eip712';
+import { messageTypes } from './eip712';
 
 const offchainDomain = {
   name: 'Orderly',
@@ -26,7 +26,7 @@ export async function registerAccount(wallet: ethers.Wallet): Promise<string> {
   const signature = await wallet.signTypedData(
     offchainDomain,
     {
-      Registration: eip712Types.Registration
+      Registration: messageTypes.Registration
     },
     registerMessage
   );
@@ -65,7 +65,7 @@ export async function addAccessKey(wallet: ethers.Wallet): Promise<Uint8Array> {
   const signature = await wallet.signTypedData(
     offchainDomain,
     {
-      AddOrderlyKey: eip712Types.AddOrderlyKey
+      AddOrderlyKey: messageTypes.AddOrderlyKey
     },
     addKeyMessage
   );
